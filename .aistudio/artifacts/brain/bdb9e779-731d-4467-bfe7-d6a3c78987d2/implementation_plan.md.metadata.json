@@ -1,0 +1,6 @@
+{
+  "summary":  "Comprehensive architectural plan and Win32 API specification for FloatDock, a Windows 11 native C# .NET 8 WPF floating shortcut widget with five productivity tools (Back button, Task Manager shortcut, Screen Drawing overlay, Screenshot tool, App Switcher with live DWM thumbnails), MVVM-lite structure, global hotkeys, and multi-monitor DPI handling.",
+  "updatedAt":  "2026-11-08T12:45:25.462597224Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

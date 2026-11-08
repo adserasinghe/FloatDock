@@ -1,0 +1,180 @@
+<Window x:Class="FloatDock.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://schemas.lepo.co/wpf/2022/xaml"
+        mc:Ignorable="d"
+        Title="FloatDock"
+        Icon="pack://application:,,,/Assets/icons8-widget-96.png"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        MouseEnter="Window_MouseEnter"
+        MouseLeave="Window_MouseLeave">
+
+    <Window.Resources>
+        <!-- Windows 11 Fluent Button Style -->
+        <Style x:Key="FluentToolButton" TargetType="Button">
+            <Setter Property="Width" Value="36" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#25FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#35FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Drop Shadow Effect -->
+        <DropShadowEffect x:Key="FloatDockShadow"
+                          BlurRadius="20"
+                          ShadowDepth="4"
+                          Opacity="0.4"
+                          Color="#000000" />
+    </Window.Resources>
+
+    <!-- Context Menu for FloatDock Widget -->
+    <Window.ContextMenu>
+        <ContextMenu Background="#F0202020" Foreground="#FFFFFF" BorderBrush="#33FFFFFF">
+            <MenuItem Header="Settings" Click="MenuSettings_Click" />
+            <MenuItem Header="Toggle Orientation" Click="MenuOrientation_Click" />
+            <Separator Background="#22FFFFFF" />
+            <MenuItem Header="Hide Widget" Click="MenuHide_Click" />
+            <MenuItem Header="Exit FloatDock" Click="MenuExit_Click" />
+        </ContextMenu>
+    </Window.ContextMenu>
+
+    <Grid x:Name="RootContainer" Margin="10">
+        <!-- Main Expanded Dock Pill -->
+        <Border x:Name="DockPill"
+                Background="#D01E1E1E"
+                BorderBrush="#25FFFFFF"
+                BorderThickness="1"
+                CornerRadius="18"
+                Effect="{StaticResource FloatDockShadow}"
+                Padding="4">
+
+            <!-- Orientation dynamically switches between Horizontal and Vertical -->
+            <StackPanel x:Name="ToolsPanel" Orientation="Horizontal" VerticalAlignment="Center">
+
+                <!-- Drag Handle -->
+                <Border x:Name="DragGrip"
+                        Width="18"
+                        Height="32"
+                        Margin="4,0,2,0"
+                        Background="Transparent"
+                        Cursor="SizeAll"
+                        ToolTip="Drag to reposition or snap to screen edge"
+                        MouseLeftButtonDown="DragGrip_MouseLeftButtonDown"
+                        MouseLeftButtonUp="DragGrip_MouseLeftButtonUp">
+                    <TextBlock Text="⠿"
+                               Foreground="#88FFFFFF"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Border>
+
+                <!-- Tool 1: Back Button -->
+                <Button x:Name="BtnBack"
+                        Style="{StaticResource FluentToolButton}"
+                        ToolTip="Navigate Back in Active App (Long-press / Right-click for Esc)"
+                        Click="BtnBack_Click"
+                        MouseRightButtonUp="BtnBack_MouseRightButtonUp"
+                        PreviewMouseDown="BtnBack_PreviewMouseDown"
+                        PreviewMouseUp="BtnBack_PreviewMouseUp">
+                    <Image Source="pack://application:,,,/Assets/icons8-back-100.png" Width="20" Height="20" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <!-- Tool 2: Task Manager -->
+                <Button x:Name="BtnTaskManager"
+                        Style="{StaticResource FluentToolButton}"
+                        ToolTip="Open or Bring Task Manager to Front"
+                        Click="BtnTaskManager_Click">
+                    <Image Source="pack://application:,,,/Assets/icons8-chart-96.png" Width="20" Height="20" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <!-- Tool 3: Screen Drawing Overlay -->
+                <Button x:Name="BtnDrawing"
+                        Style="{StaticResource FluentToolButton}"
+                        ToolTip="Screen Drawing &amp; Annotation Overlay (Ctrl+Alt+D)"
+                        Click="BtnDrawing_Click">
+                    <Image Source="pack://application:,,,/Assets/icons8-brush-96.png" Width="20" Height="20" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <!-- Tool 4: Screenshot Tool -->
+                <Button x:Name="BtnScreenshot"
+                        Style="{StaticResource FluentToolButton}"
+                        ToolTip="Capture Screenshot (Ctrl+Alt+S)"
+                        Click="BtnScreenshot_Click">
+                    <Image Source="pack://application:,,,/Assets/icons8-screenshot-96.png" Width="20" Height="20" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <!-- Tool 5: App Switcher -->
+                <Button x:Name="BtnAppSwitcher"
+                        Style="{StaticResource FluentToolButton}"
+                        ToolTip="App Switcher &amp; Thumbnail Previews (Ctrl+Alt+Tab)"
+                        Click="BtnAppSwitcher_Click">
+                    <Image Source="pack://application:,,,/Assets/icons8-apps-40.png" Width="20" Height="20" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+
+                <!-- Collapse / Expand Toggle Button -->
+                <Button x:Name="BtnCollapse"
+                        Style="{StaticResource FluentToolButton}"
+                        Width="24"
+                        Height="24"
+                        Margin="2,0,2,0"
+                        ToolTip="Collapse to floating bubble"
+                        Click="BtnCollapse_Click">
+                    <TextBlock Text="" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10" Foreground="#77FFFFFF" />
+                </Button>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Collapsed Floating Bubble View -->
+        <Border x:Name="CollapsedBubble"
+                Width="40"
+                Height="40"
+                Background="#E61E1E1E"
+                BorderBrush="#40FFFFFF"
+                BorderThickness="1.5"
+                CornerRadius="20"
+                Visibility="Collapsed"
+                Cursor="Hand"
+                Effect="{StaticResource FloatDockShadow}"
+                ToolTip="FloatDock (Click to expand)"
+                MouseLeftButtonDown="CollapsedBubble_MouseLeftButtonDown">
+            <Image Source="pack://application:,,,/Assets/icons8-chart-96.png"
+                   Width="22"
+                   Height="22"
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+        </Border>
+
+    </Grid>
+</Window>

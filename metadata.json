@@ -1,0 +1,6 @@
+{
+  "name": "FloatDock - Windows Floating Shortcut Widget",
+  "description": "Production-quality Windows 11/10 desktop floating shortcut widget built with C# .NET 8, WPF, and Win32 interop with five productivity tools and interactive desktop simulator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

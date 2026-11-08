@@ -1,0 +1,165 @@
+<Window x:Class="FloatDock.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="FloatDock Settings"
+        Height="620"
+        Width="520"
+        WindowStartupLocation="CenterScreen"
+        Background="#181818"
+        Foreground="#FFFFFF"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="FloatDock Configuration" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" />
+            <TextBlock Text="Customize dock appearance, tools, hotkeys, and behavior" FontSize="12" Foreground="#88FFFFFF" Margin="0,2,0,0" />
+        </StackPanel>
+
+        <!-- Settings Tabs -->
+        <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0">
+            <!-- Tab 1: Appearance & Dock -->
+            <TabItem Header="Appearance">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+                    <StackPanel Spacing="16">
+                        <!-- Theme -->
+                        <TextBlock Text="Theme" FontWeight="SemiBold" Foreground="#4CC2FF" />
+                        <ComboBox x:Name="CmbTheme" Width="200" HorizontalAlignment="Left" Background="#262626" Foreground="#FFFFFF">
+                            <ComboBoxItem Content="System Default" Tag="System" IsSelected="True" />
+                            <ComboBoxItem Content="Dark Mode" Tag="Dark" />
+                            <ComboBoxItem Content="Light Mode" Tag="Light" />
+                        </ComboBox>
+
+                        <!-- Opacity -->
+                        <TextBlock Text="Dock Opacity" FontWeight="SemiBold" Foreground="#4CC2FF" Margin="0,8,0,0" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="SliderOpacity" Minimum="0.3" Maximum="1.0" Value="0.92" TickFrequency="0.05" IsSnapToTickEnabled="True" ValueChanged="SliderOpacity_ValueChanged" />
+                            <TextBlock x:Name="TxtOpacityVal" Grid.Column="1" Text="92%" HorizontalAlignment="Right" Foreground="#CCCCCC" />
+                        </Grid>
+
+                        <!-- Auto-Collapse -->
+                        <TextBlock Text="Auto-Collapse Behavior" FontWeight="SemiBold" Foreground="#4CC2FF" Margin="0,8,0,0" />
+                        <CheckBox x:Name="ChkAutoCollapse" Content="Collapse dock to a floating bubble after inactivity" Foreground="#FFFFFF" IsChecked="True" />
+                        <StackPanel Orientation="Horizontal" Margin="20,4,0,0">
+                            <TextBlock Text="Idle delay (seconds):" Foreground="#AAAAAA" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <TextBox x:Name="TxtCollapseSeconds" Width="60" Text="5" Background="#262626" Foreground="#FFFFFF" Padding="4" />
+                        </StackPanel>
+
+                        <!-- Start with Windows -->
+                        <TextBlock Text="System Integration" FontWeight="SemiBold" Foreground="#4CC2FF" Margin="0,8,0,0" />
+                        <CheckBox x:Name="ChkStartWithWindows" Content="Start FloatDock automatically on Windows logon" Foreground="#FFFFFF" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 2: Tools & Visibility -->
+            <TabItem Header="Tools">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Toggle Tool Visibility" FontWeight="SemiBold" Foreground="#4CC2FF" />
+                        <CheckBox x:Name="ChkToolBack" Content="1. Back Button (with long-press / right-click Esc)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
+                        <CheckBox x:Name="ChkToolTaskMgr" Content="2. Task Manager Shortcut (foregrounds or launches)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
+                        <CheckBox x:Name="ChkToolDraw" Content="3. Screen Drawing Overlay (InkCanvas annotation)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
+                        <CheckBox x:Name="ChkToolScreenshot" Content="4. Screenshot Tool (Region, Window, Virtual Screen)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
+                        <CheckBox x:Name="ChkToolSwitcher" Content="5. App Switcher (Live DWM window thumbnails)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 3: Screenshot & Draw -->
+            <TabItem Header="Captures">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="Screenshot Save Location" FontWeight="SemiBold" Foreground="#4CC2FF" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TxtScreenshotFolder" Background="#262626" Foreground="#FFFFFF" Padding="6" />
+                            <Button Grid.Column="1" Content="Browse..." Margin="8,0,0,0" Padding="12,4" Background="#333333" Foreground="#FFFFFF" BorderThickness="0" Click="BtnBrowseFolder_Click" />
+                        </Grid>
+
+                        <CheckBox x:Name="ChkClipboard" Content="Copy screenshot to clipboard automatically" Foreground="#FFFFFF" IsChecked="True" Margin="0,6,0,0" />
+                        <CheckBox x:Name="ChkAutoSave" Content="Auto-save timestamped PNG image to folder" Foreground="#FFFFFF" IsChecked="True" Margin="0,4,0,0" />
+
+                        <TextBlock Text="Drawing Overlay Defaults" FontWeight="SemiBold" Foreground="#4CC2FF" Margin="0,10,0,0" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Default Pen Thickness:" Foreground="#AAAAAA" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <TextBox x:Name="TxtDrawThickness" Width="60" Text="3.5" Background="#262626" Foreground="#FFFFFF" Padding="4" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab 4: Hotkeys -->
+            <TabItem Header="Hotkeys">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="Global Keyboard Shortcuts" FontWeight="SemiBold" Foreground="#4CC2FF" />
+
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Show / Hide Widget:" Foreground="#CCCCCC" VerticalAlignment="Center" />
+                            <TextBox x:Name="TxtHotkeyToggle" Grid.Column="1" Text="Ctrl+Alt+W" Background="#262626" Foreground="#FFFFFF" Padding="6" />
+                        </Grid>
+
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Screen Drawing Mode:" Foreground="#CCCCCC" VerticalAlignment="Center" />
+                            <TextBox x:Name="TxtHotkeyDraw" Grid.Column="1" Text="Ctrl+Alt+D" Background="#262626" Foreground="#FFFFFF" Padding="6" />
+                        </Grid>
+
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Region Screenshot:" Foreground="#CCCCCC" VerticalAlignment="Center" />
+                            <TextBox x:Name="TxtHotkeyScreenshot" Grid.Column="1" Text="Ctrl+Alt+S" Background="#262626" Foreground="#FFFFFF" Padding="6" />
+                        </Grid>
+
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="App Switcher:" Foreground="#CCCCCC" VerticalAlignment="Center" />
+                            <TextBox x:Name="TxtHotkeySwitcher" Grid.Column="1" Text="Ctrl+Alt+Tab" Background="#262626" Foreground="#FFFFFF" Padding="6" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Footer Buttons -->
+        <Border Grid.Row="2" Margin="0,16,0,0" Padding="0,12,0,0" BorderBrush="#22FFFFFF" BorderThickness="0,1,0,0">
+            <Grid>
+                <Button Content="Reset Defaults" HorizontalAlignment="Left" Background="#2A2A2A" Foreground="#CCCCCC" BorderThickness="0" Padding="14,6" Click="BtnReset_Click" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Cancel" Margin="0,0,10,0" Background="#2A2A2A" Foreground="#CCCCCC" BorderThickness="0" Padding="16,6" Click="BtnCancel_Click" />
+                    <Button Content="Save &amp; Apply" Background="#0078D4" Foreground="#FFFFFF" BorderThickness="0" Padding="18,6" FontWeight="SemiBold" Click="BtnSave_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
