@@ -123,6 +123,7 @@ namespace FloatDock.Views
                 BtnDrawing.Visibility = settings.ToolVisibility.GetValueOrDefault("Draw", true) ? Visibility.Visible : Visibility.Collapsed;
                 BtnScreenshot.Visibility = settings.ToolVisibility.GetValueOrDefault("Screenshot", true) ? Visibility.Visible : Visibility.Collapsed;
                 BtnAppSwitcher.Visibility = settings.ToolVisibility.GetValueOrDefault("AppSwitcher", true) ? Visibility.Visible : Visibility.Collapsed;
+                BtnSettings.Visibility = settings.ToolVisibility.GetValueOrDefault("Settings", true) ? Visibility.Visible : Visibility.Collapsed;
 
                 ResetAutoCollapseTimer();
             });
@@ -382,6 +383,10 @@ namespace FloatDock.Views
         #endregion
 
         #region Menu & Lifecycle Handlers
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e) => OpenSettingsWindow();
+
+        private void CollapsedBubble_MouseRightButtonUp(object sender, MouseButtonEventArgs e) => OpenSettingsWindow();
 
         private void MenuSettings_Click(object sender, RoutedEventArgs e) => OpenSettingsWindow();
 

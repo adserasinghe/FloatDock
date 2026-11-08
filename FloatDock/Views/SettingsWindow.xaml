@@ -75,6 +75,7 @@
                         <CheckBox x:Name="ChkToolDraw" Content="3. Screen Drawing Overlay (InkCanvas annotation)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
                         <CheckBox x:Name="ChkToolScreenshot" Content="4. Screenshot Tool (Region, Window, Virtual Screen)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
                         <CheckBox x:Name="ChkToolSwitcher" Content="5. App Switcher (Live DWM window thumbnails)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
+                        <CheckBox x:Name="ChkToolSettings" Content="6. Settings Button on Dock (Direct Configuration Access)" Foreground="#FFFFFF" IsChecked="True" Margin="0,4" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

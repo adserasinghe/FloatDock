@@ -58,6 +58,7 @@ namespace FloatDock.Views
             ChkToolDraw.IsChecked = s.ToolVisibility.GetValueOrDefault("Draw", true);
             ChkToolScreenshot.IsChecked = s.ToolVisibility.GetValueOrDefault("Screenshot", true);
             ChkToolSwitcher.IsChecked = s.ToolVisibility.GetValueOrDefault("AppSwitcher", true);
+            ChkToolSettings.IsChecked = s.ToolVisibility.GetValueOrDefault("Settings", true);
 
             // Captures
             TxtScreenshotFolder.Text = s.ScreenshotDirectory;
@@ -127,6 +128,7 @@ namespace FloatDock.Views
             s.ToolVisibility["Draw"] = ChkToolDraw.IsChecked ?? true;
             s.ToolVisibility["Screenshot"] = ChkToolScreenshot.IsChecked ?? true;
             s.ToolVisibility["AppSwitcher"] = ChkToolSwitcher.IsChecked ?? true;
+            s.ToolVisibility["Settings"] = ChkToolSettings.IsChecked ?? true;
 
             // Captures
             s.ScreenshotDirectory = TxtScreenshotFolder.Text.Trim();
